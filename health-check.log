@@ -319,3 +319,24 @@
 [2026-04-13 06:19:36] 🚨 ALERT — TravelMind down for 37 consecutive checks!
 [2026-04-13 06:19:36]    Uptime so far: 0%
 [2026-04-13 06:19:37] ✓ OK  status=200  response_time=0.014463s
+[2026-04-13 06:19:42] ✓ OK
+[2026-04-13 06:19:43] ✗ FAIL  status=000  consecutive_failures=31
+[2026-04-13 06:19:43] 🚨 ALERT — TravelMind down for 31 consecutive checks!
+[2026-04-13 06:19:43]    Uptime so far: 0%
+[2026-04-13 06:20:11] ✓ OK  status=200  response_time=0.014440s
+[2026-04-13 06:20:11] ✗ FAIL  status=000  consecutive_failures=38
+[2026-04-13 06:20:11] 🚨 ALERT — TravelMind down for 38 consecutive checks!
+[2026-04-13 06:20:11]    Uptime so far: 0%
+[2026-04-13 06:20:16] ✓ OK
+[2026-04-13 06:20:29] ✗ FAIL  status=000  consecutive_failures=32
+[2026-04-13 06:20:29] 🚨 ALERT — TravelMind down for 32 consecutive checks!
+[2026-04-13 06:20:30]    Uptime so far: 0%
+[2026-04-13 06:20:44] ✓ OK  status=200  response_time=0.014315s
+[2026-04-13 06:20:45] ✗ FAIL  status=000  consecutive_failures=39
+[2026-04-13 06:20:45] 🚨 ALERT — TravelMind down for 39 consecutive checks!
+[2026-04-13 06:20:45]    Uptime so far: 0%
+[2026-04-13 06:20:49] ✓ OK
+[2026-04-13 06:21:16] ✗ FAIL  status=000  consecutive_failures=33
+[2026-04-13 06:21:16] 🚨 ALERT — TravelMind down for 33 consecutive checks!
+[2026-04-13 06:21:16]    Uptime so far: 0%
+[2026-04-13 06:21:18] ✓ OK  status=200  response_time=0.015767s
