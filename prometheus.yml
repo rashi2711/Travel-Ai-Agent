@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # TravelMind App - Real metrics endpoint
+  - job_name: 'travelmind-app'
+    metrics_path: '/_stcore/metrics'          # Changed from /health
+    static_configs:
+      - targets: ['travelmind:8501']
+    scrape_interval: 15s

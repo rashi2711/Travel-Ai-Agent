@@ -1,0 +1,96 @@
+# deployment.yaml — TravelMind AI on Kubernetes (Minikube)
+# Setup:  minikube start
+#         eval $(minikube docker-env)
+#         docker build -t travelmind:latest .
+#         kubectl apply -f deployment.yaml
+#         minikube service travelmind-service --url
+
+---
+# Deployment — runs 2 replicas for high availability
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travelmind
+  labels:
+    app: travelmind
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: travelmind
+  template:
+    metadata:
+      labels:
+        app: travelmind
+    spec:
+      containers:
+        - name: travelmind
+          image: travelmind:latest
+          imagePullPolicy: Never       # Use local Minikube image
+          ports:
+            - containerPort: 8501
+          env:
+            - name: AI_PROVIDER
+              value: "demo"            # Safe default for K8s demo
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: travelmind-secrets
+                  key: openai-api-key
+                  optional: true
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: travelmind-secrets
+                  key: gemini-api-key
+                  optional: true
+          # Liveness probe — restart pod if app is stuck
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          # Readiness probe — only send traffic when app is ready
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
+---
+# Service — exposes the app outside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: travelmind-service
+spec:
+  selector:
+    app: travelmind
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8501
+      nodePort: 30850
+
+---
+# Secret — store API keys safely (base64 encoded)
+# To create: kubectl create secret generic travelmind-secrets \
+#              --from-literal=openai-api-key=sk-xxx \
+#              --from-literal=gemini-api-key=xxx
+apiVersion: v1
+kind: Secret
+metadata:
+  name: travelmind-secrets
+type: Opaque
+data: {}                             # Fill via kubectl command above
